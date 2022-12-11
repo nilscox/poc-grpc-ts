@@ -1,21 +1,24 @@
+import { promisify } from 'util';
+
 import * as grpc from '@grpc/grpc-js';
-import * as protoLoader from '@grpc/proto-loader';
+
+import { loadProto } from 'common';
 
 import { _com_Language_Code } from 'generated/com/Language';
 import { ProtoGrpcType } from 'generated/hello_service';
 
-const packageDefinition = protoLoader.loadSync('services/hello_service.proto', {
-  includeDirs: ['/home/nils/dev/test-grpc-ts/packages/protos'],
-  keepCase: true,
-  defaults: true,
-});
+const LanguageCode = _com_Language_Code;
 
-const protoDescriptor = grpc.loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType;
+async function main() {
+  const proto = await loadProto<ProtoGrpcType>('services/hello_service.proto');
+  const { HelloService } = proto.services;
 
-const { HelloService } = protoDescriptor.services;
+  const service = new HelloService('localhost:4000', grpc.credentials.createInsecure());
 
-const service = new HelloService('localhost:4000', grpc.credentials.createInsecure());
+  const greet = promisify(service.greet.bind(service));
 
-service.greet({ name: 'vio', language_code: _com_Language_Code.CODE_FA }, (error, response) => {
+  const response = await greet({ name: 'vio', language_code: LanguageCode.CODE_EN });
   console.log(response?.greeting);
-});
+}
+
+main().catch(console.error);

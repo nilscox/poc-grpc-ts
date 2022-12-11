@@ -1,5 +1,5 @@
 {
-  "name": "test-grpc-ts",
+  "name": "poc-grpc-ts",
   "version": "0.1.0",
   "private": true,
   "workspaces": [

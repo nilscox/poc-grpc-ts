@@ -1,8 +1,14 @@
 {
-  "extends": "../../tsconfig.json",
-  "include": ["src", "generated"],
+  "extends": "../../tsconfig.base.json",
+  "include": ["src"],
+  "references": [{ "path": "../common" }],
   "compilerOptions": {
-    "baseUrl": "."
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "generated/*": ["../common/generated/*"],
+      "common": ["../common/src"]
+    }
   },
   "ts-node": {
     "require": ["tsconfig-paths/register"]

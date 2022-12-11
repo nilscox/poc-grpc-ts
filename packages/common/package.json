@@ -1,0 +1,9 @@
+{
+  "name": "common",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "gen-types": "proto-loader-gen-types -I ../../protos -O ./generated --grpcLib @grpc/grpc-js --keepCase --defaults ../../protos/**/*.proto"
+  }
+}
