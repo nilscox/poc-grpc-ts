@@ -1,4 +1,10 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["src"]
+  "include": ["src", "generated"],
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }
